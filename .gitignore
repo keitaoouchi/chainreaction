@@ -1,0 +1,7 @@
+.project
+.classpath
+.scala_dependencies
+.pydevproject
+build
+dist
+*.egg-info
