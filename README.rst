@@ -10,6 +10,8 @@ Readable::
 
     >>> iterable = react(iterable)
     >>> iterable.map(lambda x: x + 1).filter(lambda y: y % 2)
+    
+.. image:: https://secure.travis-ci.org/keitaoouchi/chainreaction.png
 
 How to install
 --------------
