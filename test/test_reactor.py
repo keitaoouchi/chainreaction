@@ -1,8 +1,3 @@
-'''
-Created on 2011/07/11
-
-@author: Keita Oouchi
-'''
 import sys, os
 
 sys.path.append("./src")
@@ -26,7 +21,7 @@ class TestReactor(unittest.TestCase):
         else:
             self.assertIsInstance(obj, cls)
 
-    def testAttrError(self):
+    def test_attr_error(self):
         targets = []
         targets.append(1)
         targets.append(True)
@@ -36,7 +31,7 @@ class TestReactor(unittest.TestCase):
         for elem in targets:
             self.assertRaises(AttributeError, react, elem)
 
-    def testAttrAcceptable(self):
+    def test_attr_acceptable(self):
         targets = []
         targets.append(str())
         targets.append("")
@@ -68,7 +63,7 @@ class TestReactor(unittest.TestCase):
             self.assertTrue(issubclass(type(target), Chainable))
             self.assertEqual(type(elem), target.type)
 
-    def testStr(self):
+    def test_str(self):
         original = "hello world"
         wrapped = react(original)
 
@@ -167,7 +162,7 @@ class TestReactor(unittest.TestCase):
         wrapped = react(bytearray(tobewrapped, encoding="UTF-8"))
         self.assertEqual(wrapped.tostring, tobewrapped)
 
-    def testDict(self):
+    def test_dict(self):
         original = OrderedDict()
         original["k1"] = "v1"
         original["k2"] = "v2"
@@ -247,7 +242,7 @@ class TestReactor(unittest.TestCase):
         it = iter(react(original))
         self.assertFalse(issubclass(it.__class__, Chainable))
 
-    def testSet(self):
+    def test_set(self):
         original = set([1, 2, 3])
         wrapped = react(original)
 
@@ -324,7 +319,7 @@ class TestReactor(unittest.TestCase):
         it = iter(react(original))
         self.assertFalse(issubclass(it.__class__, Chainable))
 
-    def testSeq(self):
+    def test_seq(self):
         original = [1, 2, 3]
         wrapped = react(original)
 
@@ -419,7 +414,7 @@ class TestReactor(unittest.TestCase):
         it = iter(react([1, 2, 3]))
         self.assertFalse(issubclass(it.__class__, Chainable))
 
-    def testIter(self):
+    def test_iter(self):
         original = iter([1, 2, 3])
         wrapped = react(original)
         expect = "__next__" if self.ispy3 else "next"
@@ -510,7 +505,7 @@ class TestReactor(unittest.TestCase):
         it = iter(react(iter([1, 2, 3])))
         self.assertFalse(issubclass(it.__class__, Chainable))
 
-    def testFile(self):
+    def test_file(self):
         #file iteration
         src1 = "used_in_test.data"
         src2 = os.path.join("test", src1)
@@ -608,7 +603,7 @@ class TestReactor(unittest.TestCase):
                 self.assertEqual(it.__class__, f.__class__)
                 self.assertFalse(issubclass(it.__class__, Chainable))
 
-    def testPercentEncoding(self):
+    def test_percent_encoding(self):
         test = bytearray("hello world-._~", encoding="UTF-8")
         wrapped = react(test)
         safe = set()
@@ -622,9 +617,9 @@ class TestReactor(unittest.TestCase):
         self.assertEqual(test.mkstring().unwrap, "hello+world-._~")
 
 def suite():
-  suite = unittest.TestSuite()
-  suite.addTests(unittest.makeSuite(TestReactor))
-  return suite
+    suite = unittest.TestSuite()
+    suite.addTests(unittest.makeSuite(TestReactor))
+    return suite
 
 if __name__ == "__main__":
     suite()
