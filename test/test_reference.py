@@ -1,9 +1,4 @@
-'''
-Created on 2011/07/11
-
-@author: Keita Oouchi
-'''
-import sys, os
+import sys
 
 sys.path.append("./src")
 
@@ -11,7 +6,8 @@ import unittest
 from chainreaction.reactor import react, Chainable
 from sys import getrefcount as ref
 
-class TestReactor(unittest.TestCase):
+class TestReference(unittest.TestCase):
+
     def setUp(self):
         self.ispy3 = True if sys.version >= '3.0' else False
 
@@ -58,7 +54,7 @@ class TestReactor(unittest.TestCase):
         self.assertEqual(ref(obj), startref + 1)
         self.assertEqual(ref(wrap), 2)
 
-    def testStr(self):
+    def test_str(self):
         teststr = "reftest"
         self.iterref(teststr)
         startref = ref(teststr)
@@ -96,7 +92,7 @@ class TestReactor(unittest.TestCase):
         mapped = None
         self.assertEqual(ref(teststr), startref)
 
-    def testSeq(self):
+    def test_seq(self):
         testseq = [1, 2, 3]
         self.iterref(testseq)
         startref = ref(testseq)
@@ -127,7 +123,7 @@ class TestReactor(unittest.TestCase):
         appended = None
         self.assertEqual(ref(testseq), startref)
 
-    def testSet(self):
+    def test_set(self):
         testset = set([1, 2, 3])
         self.iterref(testset)
         startref = ref(testset)
@@ -151,7 +147,7 @@ class TestReactor(unittest.TestCase):
         self.assertEqual(ref(testset), startref)
         self.assertEqual(ref(wrap.unwrap), 2)
 
-    def testDict(self):
+    def test_dict(self):
         testdict = {"k1":"v1", "k2":""}
         self.dictiterref(testdict)
         startref = ref(testdict)
@@ -176,7 +172,7 @@ class TestReactor(unittest.TestCase):
         self.assertEqual(ref(testdict), startref + 2)
         self.assertEqual(ref(wrap.unwrap), startref + 2)
 
-    def testIter(self):
+    def test_iter(self):
         testseq = [1, 2, 3]
         testit = iter(testseq)
         self.iterref(testit)
@@ -212,9 +208,9 @@ class TestReactor(unittest.TestCase):
         self.assertEqual(ref(wrap), 2)
 
 def suite():
-  suite = unittest.TestSuite()
-  suite.addTests(unittest.makeSuite(TestReactor))
-  return suite
+    suite = unittest.TestSuite()
+    suite.addTests(unittest.makeSuite(TestReference))
+    return suite
 
 if __name__ == "__main__":
     try:
